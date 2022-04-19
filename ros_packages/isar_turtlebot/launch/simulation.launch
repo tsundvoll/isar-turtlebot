@@ -1,7 +1,7 @@
 <launch>
 
   <!-- Gazebo -->
-  <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_house.launch"/>
+  <include file="$(find isar_turtlebot)/launch/our_house.launch"/>
 
   <!-- Rosbridge -->
   <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch"/>

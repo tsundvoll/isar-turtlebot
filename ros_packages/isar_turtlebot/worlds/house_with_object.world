@@ -1,0 +1,226 @@
+<sdf version='1.4'>
+  <world name='default'>
+    <!-- A global light source -->
+    <include>
+      <uri>model://sun</uri>
+    </include>
+
+    <!-- A ground plane -->
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+
+    <physics type="ode">
+      <real_time_update_rate>1000.0</real_time_update_rate>
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <ode>
+        <solver>
+          <type>quick</type>
+          <iters>150</iters>
+          <precon_iters>0</precon_iters>
+          <sor>1.400000</sor>
+          <use_dynamic_moi_rescaling>1</use_dynamic_moi_rescaling>
+        </solver>
+        <constraints>
+          <cfm>0.00001</cfm>
+          <erp>0.2</erp>
+          <contact_max_correcting_vel>2000.000000</contact_max_correcting_vel>
+          <contact_surface_layer>0.01000</contact_surface_layer>
+        </constraints>
+      </ode>
+    </physics>
+
+    <gravity>0.0 0.0 -9.81</gravity>
+
+    <model name='stand_box'>
+      <pose>-1.8 1 0.1 0 -0 0</pose>
+      <link name='link_box'>
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>0.5 0.5 0.2</size>
+            </box>
+          </geometry>
+          <max_contacts>10</max_contacts>
+        </collision>
+
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>0.5 0.5 0.2</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <name>Gazebo/Black</name>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+            </script>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <static>1</static>
+    </model>
+
+
+    <model name='object_to_pick_up'>
+      <pose>-2 1 0.25 0.0 -0 0</pose>
+      <link name='crossbar'>
+        <inertial>
+          <origin xyz="0 0 0" />
+          <mass>0.010</mass>
+          <inertia>
+            <ixx>0.0000104</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.00000417</iyy>
+            <iyz>0</iyz>
+            <izz>0.0000104</izz>
+          </inertia>
+          <pose>0 0 0 0 -0 0</pose>
+        </inertial>
+
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>0.05 0.1 0.05</size>
+            </box>
+          </geometry>
+          <!-- <surface>
+            <friction>
+              <mu1>100000</mu1>
+              <mu2>100000</mu2>
+              <kp>1000000.0</kp>
+              <kd>100000.0</kd>
+              <slip1>0</slip1>
+              <slip2>0</slip2>
+              <minDepth>0.001</minDepth>
+              <maxVel>0</maxVel>
+              <torsional>
+                  <ode>
+                      <coefficient>1000</coefficient>
+                      <slip>0</slip>
+                  </ode>
+              </torsional>
+            </friction>
+          </surface> -->
+        </collision>
+
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>0.05 0.1 0.05</size>
+            </box>
+          </geometry>
+          <material name='red'>
+            <script>
+              <name>Gazebo/Red</name>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+            </script>
+          </material>
+        </visual>
+      </link>
+
+      <!--  Joint -->
+      <joint name="joint1" type="fixed">
+        <parent link="crossbar"/>
+        <child link="object_box"/>
+        <pose xyz="0.0 0.0 0.225" rpy="0 0 0"/>
+      </joint>
+
+      <link name='object_box'>
+        <inertial>
+          <origin xyz="0 0 0" />
+          <mass>0.010</mass>
+          <inertia>
+            <ixx>0.0000104</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.0000104</iyy>
+            <iyz>0</iyz>
+            <izz>0.00000417</izz>
+          </inertia>
+        </inertial>
+
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>0.051 0.051 0.1</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction>
+              <mu1>100000</mu1>
+              <mu2>100000</mu2>
+              <kp>1000000.0</kp>
+              <kd>100000.0</kd>
+              <slip1>0</slip1>
+              <slip2>0</slip2>
+              <minDepth>0.001</minDepth>
+              <maxVel>0</maxVel>
+              <torsional>
+                  <ode>
+                      <coefficient>1000</coefficient>
+                      <slip>0</slip>
+                  </ode>
+              </torsional>
+            </friction>
+          </surface>
+        </collision>
+
+        <visual name='visual'>
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+          <geometry>
+            <box>
+              <size>0.051 0.051 0.1</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <name>Gazebo/Red</name>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+            </script>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- <gazebo reference="link">
+      <mu1>100000</mu1>
+      <mu2>100000</mu2>
+      <kp>1000000.0</kp>
+      <kd>100000.0</kd>
+      <slip1>0</slip1>
+      <slip2>0</slip2>
+      <minDepth>0.001</minDepth>
+      <maxVel>0</maxVel>
+      <torsional>
+          <ode>
+              <coefficient>1000</coefficient>
+              <slip>0</slip>
+          </ode>
+      </torsional>
+    </gazebo> -->
+
+    <!-- A turtlebot symbol -->
+    <!-- <include>
+      <uri>model://turtlebot3_house</uri>
+    </include> -->
+
+    <scene>
+      <ambient>0.4 0.4 0.4 1</ambient>
+      <background>0.7 0.7 0.7 1</background>
+      <shadows>true</shadows>
+    </scene>
+
+    <gui fullscreen='0'>
+      <camera name='user_camera'>
+        <pose>0.0 0.0 17.0 0 1.5708 0</pose>
+        <view_controller>orbit</view_controller>
+      </camera>
+    </gui>
+  </world>
+</sdf>
